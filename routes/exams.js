@@ -31,4 +31,22 @@ router.post('/exams', (req, res) => {
     res.status(201).json(newUser);
 });
 
+// UPDATE /exams/:id endpoint
+router.put('/exams/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, exam } = req.body;
+
+    const userIndex = users.findIndex(user => user.id === parseInt(id));
+
+    if (userIndex === -1) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update fields if provided
+    if (name) users[userIndex].name = name;
+    if (exam) users[userIndex].exam = exam;
+
+    res.json(users[userIndex]);
+});
+
 module.exports = router;
